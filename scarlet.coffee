@@ -1,4 +1,4 @@
-Scarlet = {}
+@Scarlet = Scarlet = {}
 
 class Scarlet.Test
   #
@@ -38,36 +38,39 @@ class Scarlet.Test
     @callback = callback
 
   run: =>
-    measureCache((cacheLatency) =>
+    @measureCache((cacheLatency) =>
       @cacheLatency = cacheLatency
 
-      compareDomains()
+      @compareDomains()
     )
 
-    measureTarget((targetColdLatency) =>
+    @measureTarget((targetColdLatency) =>
       @targetColdLatency = targetColdLatency
 
-      compareDomains()
+      @compareDomains()
     )
 
   compareDomains: =>
     if @cacheLatency? && @targetColdLatency?
-      if @cacheLatency / @targetColdLatency <= @cacheThreshold
-        true
+      console.log @targetColdLatency
+      if @cacheLatency / @targetColdLatency >= @cacheThreshold
+        @callback(true)
       else
-        false
+        @callback(false)
 
   # Measure the cached response time of the origin server's favicon
   measureCache: (callback) =>
-    meaure(window.location.origin, =>
-      measure(window.location.origin, callback)
+    callback(5)
+    return
+    @measure(window.location.origin, =>
+      @measure(window.location.origin, callback)
     )
 
   measureTarget: (callback) =>
-    measure(@targetUrl, callback)
+    @measure(@targetUrl, callback)
 
-  measure: (domain) =>
+  measure: (domain, callback) =>
     startTime = new Date()
     img = document.createElement("img")
-    img.onload = -> new Date() - startTime
-    img.src = "#{domain}/favicon.ico"
+    img.onload = -> callback(new Date() - startTime)
+    img.src = "#{domain}favicon.ico"

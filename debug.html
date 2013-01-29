@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scarlet Debugger</title>
+
+    <script src="scarlet.js"></script>
+
+    <script>
+      function test () {
+        new Scarlet.Test("http://github.com/", function (result) {
+          console.log(result);
+        }).run()
+      }
+    </script>
+  </head>
+  <body onload="test()">
+
+  </body>
+</html>
