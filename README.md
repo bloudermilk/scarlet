@@ -6,6 +6,11 @@ for the website's domain and checking if the favicon was returned from the
 browser's cache. In this way, the favicon acts as a sort of [Scarlet
 Letter][book].
 
+**Warning:** After spending some time experimenting with this concept I believe
+the proposed exploit may not be viable. It seems like browsers (Chrome at least)
+maintain a distinct cache for each host. Meaning even if the favicon was cached
+for site A, a request for that favicon from site B would not use the cache.
+
 [book]: http://en.wikipedia.org/wiki/The_Scarlet_Letter
 
 ## Table of Contents
